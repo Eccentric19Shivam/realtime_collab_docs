@@ -1,21 +1,18 @@
-"use client";
+'use client';
 
-import { ClientSideSuspense, RoomProvider } from "@liveblocks/react/suspense";
-import Header from "./Header";
-import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
-import { Editor } from "./editor/Editor";
-import ActiveColllaborators from "./ActiveColllaborators";
-import { useEffect, useRef, useState } from "react";
-import { Input } from "@/components/ui/input"
-import Image from "next/image";
-import { updateDocument } from "@/lib/actions/room.actions";
-import Loader from "./Loader";
-import ShareModal from "./ShareModal";
-
+import { ClientSideSuspense, RoomProvider } from '@liveblocks/react/suspense'
+import { Editor } from '@/components/editor/Editor'
+import Header from '@/components/Header'
+import { SignedIn, SignedOut, SignInButton, UserButton } from '@clerk/nextjs'
+import ActiveCollaborators from './ActiveCollaborators';
+import { useEffect, useRef, useState } from 'react';
+import { Input } from './ui/input';
+import Image from 'next/image';
+import { updateDocument } from '@/lib/actions/room.actions';
+import Loader from './Loader';
+import ShareModal from './ShareModal';
 
 const CollaborativeRoom = ({ roomId, roomMetadata, users, currentUserType }: CollaborativeRoomProps) => {
-
-
   const [documentTitle, setDocumentTitle] = useState(roomMetadata.title);
   const [editing, setEditing] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -30,7 +27,7 @@ const CollaborativeRoom = ({ roomId, roomMetadata, users, currentUserType }: Col
       try {
         if(documentTitle !== roomMetadata.title) {
           const updatedDocument = await updateDocument(roomId, documentTitle);
-
+          
           if(updatedDocument) {
             setEditing(false);
           }
@@ -56,13 +53,14 @@ const CollaborativeRoom = ({ roomId, roomMetadata, users, currentUserType }: Col
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     }
-  }, [roomId, documentTitle]);
-  
+  }, [roomId, documentTitle])
+
   useEffect(() => {
     if(editing && inputRef.current) {
       inputRef.current.focus();
     }
   }, [editing])
+  
 
   return (
     <RoomProvider id={roomId}>
@@ -72,18 +70,18 @@ const CollaborativeRoom = ({ roomId, roomMetadata, users, currentUserType }: Col
             <div ref={containerRef} className="flex w-fit items-center justify-center gap-2">
               {editing && !loading ? (
                 <Input 
-                type="text"
-                value={documentTitle}
-                ref={inputRef}
-                placeholder="Enter title"
-                onChange={(e) => setDocumentTitle(e.target.value)}
-                onKeyDown={updateTitleHandler}
-                disabled={!editing}
-                className="document-title-input"
-              />
-              ): (
+                  type="text"
+                  value={documentTitle}
+                  ref={inputRef}
+                  placeholder="Enter title"
+                  onChange={(e) => setDocumentTitle(e.target.value)}
+                  onKeyDown={updateTitleHandler}
+                  disable={!editing}
+                  className="document-title-input"
+                />
+              ) : (
                 <>
-                <p className="document-title">{documentTitle}</p>
+                  <p className="document-title">{documentTitle}</p>
                 </>
               )}
 
@@ -99,14 +97,13 @@ const CollaborativeRoom = ({ roomId, roomMetadata, users, currentUserType }: Col
               )}
 
               {currentUserType !== 'editor' && !editing && (
-                <p className="view-only-tag">View Only</p>
+                <p className="view-only-tag">View only</p>
               )}
 
               {loading && <p className="text-sm text-gray-400">saving...</p>}
             </div>
-
             <div className="flex w-full flex-1 justify-end gap-2 sm:gap-3">
-              <ActiveColllaborators />
+              <ActiveCollaborators />
 
               <ShareModal 
                 roomId={roomId}
@@ -123,11 +120,11 @@ const CollaborativeRoom = ({ roomId, roomMetadata, users, currentUserType }: Col
               </SignedIn>
             </div>
           </Header>
-          <Editor roomId={roomId} currentUserType={currentUserType}/>
+        <Editor roomId={roomId} currentUserType={currentUserType} />
         </div>
       </ClientSideSuspense>
     </RoomProvider>
-  );
-};
+  )
+}
 
-export default CollaborativeRoom;
+export default CollaborativeRoom

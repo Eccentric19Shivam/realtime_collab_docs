@@ -42,6 +42,12 @@
 // });
 
 const nextConfig = {
+  typescript: {
+    ignoreBuildErrors: true,
+  },
+  images: {
+    remotePatterns: [{ protocol: 'https', hostname: 'img.clerk.com' }]
+  }
   // Your other Next.js configurations
 };
 

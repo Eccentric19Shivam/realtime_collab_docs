@@ -2,7 +2,6 @@ import AddDocumentBtn from '@/components/AddDocumentBtn';
 import { DeleteModal } from '@/components/DeleteModal';
 import Header from '@/components/Header'
 import Notifications from '@/components/Notifications';
-import { Button } from '@/components/ui/button'
 import { getDocuments } from '@/lib/actions/room.actions';
 import { dateConverter } from '@/lib/utils';
 import { SignedIn, UserButton } from '@clerk/nextjs'
@@ -41,7 +40,7 @@ const Home = async () => {
             {roomDocuments.data.map(({ id, metadata, createdAt }: any) => (
               <li key={id} className="document-list-item">
                 <Link href={`/documents/${id}`} className="flex flex-1 items-center gap-4">
-                  <div className="hidden rounded-md bg-dark-500 p-2 sm:block">
+                  <div className="hidden rounded-md bg-dark-500 p-2 sm:block"> {/* commit*/}
                     <Image 
                       src="/assets/icons/doc.svg"
                       alt="file"
